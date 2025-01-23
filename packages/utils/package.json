@@ -3,13 +3,13 @@
   "version": "6.3.1",
   "description": "Package to aggregate shared logic and dependencies for the libp2p ecosystem",
   "license": "Apache-2.0 OR MIT",
-  "homepage": "https://github.com/libp2p/js-libp2p/tree/main/packages/utils#readme",
+  "homepage": "https://github.com/TryQuiet/js-libp2p/tree/main/packages/utils#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/libp2p/js-libp2p.git"
+    "url": "git+https://github.com/TryQuiet/js-libp2p.git"
   },
   "bugs": {
-    "url": "https://github.com/libp2p/js-libp2p/issues"
+    "url": "https://github.com/TryQuiet/js-libp2p/issues"
   },
   "publishConfig": {
     "access": "public",
@@ -47,6 +47,10 @@
     "./abort-options": {
       "types": "./dist/src/abort-options.d.ts",
       "import": "./dist/src/abort-options.js"
+    },
+    "./abortable-iter": {
+      "types": "./dist/src/abortable-iter.d.ts",
+      "import": "./dist/src/abortable-iter.js"
     },
     "./abstract-stream": {
       "types": "./dist/src/abstract-stream.d.ts",
