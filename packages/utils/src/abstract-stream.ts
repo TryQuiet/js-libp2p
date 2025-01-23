@@ -8,6 +8,7 @@ import { closeSource } from './close-source.js'
 import type { AbortOptions, Direction, ReadStatus, Stream, StreamStatus, StreamTimeline, WriteStatus } from '@libp2p/interface'
 import type { Logger } from '@libp2p/logger'
 import type { Source } from 'it-stream-types'
+import { abortableAsyncIterable } from './abortable-iter.js'
 
 const DEFAULT_SEND_CLOSE_WRITE_TIMEOUT = 5000
 
@@ -177,7 +178,7 @@ export abstract class AbstractStream implements Stream {
 
         this.log.trace('sink reading from source')
 
-        for await (let data of source) {
+        for await (let data of abortableAsyncIterable(source, this.sinkController.signal)) {
           data = data instanceof Uint8Array ? new Uint8ArrayList(data) : data
 
           const res = this.sendData(data, options)
@@ -189,6 +190,11 @@ export abstract class AbstractStream implements Stream {
             this.sendingData = undefined
           }
         }
+      } catch (e) {
+        if (!this.sinkController.signal.aborted) {
+          this.sinkController.abort(e)
+        }
+        throw e
       } finally {
         this.sinkController.signal.removeEventListener('abort', abortListener)
       }
